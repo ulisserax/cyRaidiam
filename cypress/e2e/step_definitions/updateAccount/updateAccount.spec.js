@@ -18,14 +18,26 @@ Given("the user is logged in", () => {
     cy.contains('h1.logo-font', 'conduit').should('be.visible');
 });
 
-When("the user updates its profile with the following information:", () => {
-	return true;
+When("the user updates its {string}, {string} and {string}, after clicking on the profile page", (nickname, email, password) => {
+	cy.get('.nav-link').contains('testerUser').click();
+    cy.get('a[href="#/settings"]').click();
+    cy.get('input[placeholder="Your username"]').clear().type(nickname);
+    cy.get('input[placeholder="Email"]').clear().type(email);
+    cy.get('input[placeholder="Password"]').clear().type(password);
+    cy.contains('button', 'Update Settings').click();
+    cy.wrap(nickname).as('nickname');
 });
 
 Then("the user profile is updated", () => {
-	return true;
+	// cy.intercept('PUT', '/api/user').as('updateUser');
+    // cy.wait('@updateUser').its('response.statusCode').should('eq', 200);
+    return true;
+
 });
 
 Then("the user is redirected to the profile page", () => {
-	return true;
+	cy.get('@nickname').then((nickname) => {
+        cy.contains('a.nav-link', nickname).should('be.visible');
+    });
+    //return true;
 });
