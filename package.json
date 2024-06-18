@@ -1,0 +1,24 @@
+{
+  "name": "cypressraidiam",
+  "version": "1.0.0",
+  "description": "Test Assessment for Raidiam",
+  "main": "index.js",
+  "scripts": {
+    "cy:open": "npx cypress open",
+    "cy:run": "npx cypress run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ulisserax/cyRaidiam"
+  },
+  "author": "Ulisses P Costa Filho",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.11.0",
+    "cypress-cucumber-preprocessor": "^4.3.1"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true,
+    "stepDefinitions": "cypress/e2e/step_definitions"
+  }
+}
