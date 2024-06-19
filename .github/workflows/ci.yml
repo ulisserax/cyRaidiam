@@ -18,9 +18,9 @@ jobs:
         run: npm install && npm install -g editorconfig && npm install -g node-gyp
         
 
-      - name: Install Python3
-        run: sudo apt update
-             sudo apt install -y python3
+      # - name: Install Python3
+      #   run: sudo apt update
+      #        sudo apt install -y python3
             #  echo "export PYTHON=$(which python3)"
 
       - name: Install another dependencies
