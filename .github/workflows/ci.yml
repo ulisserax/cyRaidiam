@@ -24,7 +24,7 @@ jobs:
             #  echo "export PYTHON=$(which python3)"
 
       - name: Install another dependencies
-        run: yarn install
+        run: npm install -g yarn
              yarn serve
         
       - name: Cypress run
