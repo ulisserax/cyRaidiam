@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { checkPages } from '../../../support/page_objects/checkPages';
+import { userActions } from '../../../support/page_objects/userActions';
 
 
 beforeEach(() => {
@@ -11,22 +13,15 @@ beforeEach(() => {
 });
 
 Given("the user is on the login page", () => {
-	cy.contains('.nav-link', 'Sign in').should('be.visible');
-    cy.contains('.nav-link', 'Sign up').should('be.visible');
+    checkPages.loginPage();
 });
 
 When("the user enters the correct credentials", () => {
-    cy.contains('.nav-link', 'Sign in').click();
-    cy.get('h1.text-xs-center').should('contain.text', 'Sign in');
-    cy.get('input[placeholder="Email"]').type('test_user@test.com');
-    cy.get('input[placeholder="Password"]').type('testerUser@123');
-    cy.get('button').click();
+    userActions.toLogin(Cypress.env("email"), Cypress.env("password"));
 });
 
-Then("the user should be redirected to the home page", () => {
-	cy.contains('.nav-link', 'testerUser').should('be.visible');
-    cy.contains('.nav-link', 'Home').should('be.visible');
-    cy.contains('h1.logo-font', 'conduit').should('be.visible');
+Then("the user should be redirected to the home page", () => {    
+    checkPages.homePage('testerUser');
 });
 
 Then("the user should see the articles", () => {
@@ -36,16 +31,11 @@ Then("the user should see the articles", () => {
 });
 
 Given("the user is on the login page", () => {
-	cy.contains('.nav-link', 'Sign in').should('be.visible');
-    cy.contains('.nav-link', 'Sign up').should('be.visible');
+    checkPages.loginPage();
 });
 
 When("the user enters the incorrect credentials", () => {
-	cy.contains('.nav-link', 'Sign in').click();
-    cy.get('h1.text-xs-center').should('contain.text', 'Sign in');
-    cy.get('input[placeholder="Email"]').type('test_user99@test.com');
-    cy.get('input[placeholder="Password"]').type('testerUser@12399');
-    cy.get('button').click();
+    userActions.toIncorrectLogin('test_user99@test.com', 'testerUser@12399');
 });
 
 Then("the user should see an error message", () => {

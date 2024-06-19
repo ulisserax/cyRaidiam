@@ -14,6 +14,7 @@
   "author": "Ulisses P Costa Filho",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "cypress": "^13.11.0",
     "cypress-cucumber-preprocessor": "^4.3.1"
   },
