@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { userActions } from '../../../support/page_objects/userActions';
 
 
 before(() => {
@@ -10,11 +11,7 @@ before(() => {
 });
 
 Given("the user is on the {string} page", (newArticle) => {
-    cy.contains('.nav-link', 'Sign in').click();
-    cy.get('h1.text-xs-center').should('contain.text', 'Sign in');
-    cy.get('input[placeholder="Email"]').type('test_user@test.com');
-    cy.get('input[placeholder="Password"]').type('testerUser@123');
-    cy.get('button').click();
+    userActions.toLogin(Cypress.env('email'), Cypress.env('password'));
 	cy.contains('.nav-link', newArticle).should('be.visible').click();
 });
 
@@ -41,5 +38,5 @@ Then("the user goes to the main page", () => {
 });
 
 Then("the user can view the article", () => {
-	return true;
+	cy.contains('h1', 'Test Article').should('be.visible');
 });

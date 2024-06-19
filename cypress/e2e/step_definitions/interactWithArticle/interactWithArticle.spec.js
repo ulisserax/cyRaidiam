@@ -1,23 +1,19 @@
 /// <reference types="cypress" />
 
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { userActions } from '../../../support/page_objects/userActions';
+import { checkPages } from '../../../support/page_objects/checkPages';
 
 
 beforeEach(() => {
     cy.clearLocalStorage();
     cy.clearCookies();
     cy.visit('/');
-    cy.contains('.nav-link', 'Sign in').click();
-    cy.get('h1.text-xs-center').should('contain.text', 'Sign in');
-    cy.get('input[placeholder="Email"]').type('test_user@test.com');
-    cy.get('input[placeholder="Password"]').type('testerUser@123');
-    cy.get('button').click();
+    userActions.toLogin(Cypress.env('email'), Cypress.env('password'));
 });
 
 Given("the user is on the home page", () => {
-	cy.contains('.nav-link', 'testerUser').should('be.visible');
-    cy.contains('.nav-link', 'Home').should('be.visible');
-    cy.contains('h1.logo-font', 'conduit').should('be.visible');
+    checkPages.homePage('testerUser');
 });
 
 When("the user clicks on an article's title", () => {
@@ -52,7 +48,6 @@ When("the user interacts with the article's content", () => {
 Then("the user will be able to comment, like and follow the account that has posted the article", () => {
     cy.contains('button', 'Follow').should('be.visible').click();
     cy.contains('button', 'Favorite').should('be.visible').click();
-    
     cy.get('textarea').type('Test Comment');
     cy.contains('button', 'Post Comment').click();
 });

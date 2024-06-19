@@ -1,6 +1,9 @@
 /// <reference types="cypress" />
 
 import { Given, When, Then } from 'cypress-cucumber-preprocessor/steps';
+import { checkPages } from '../../../support/page_objects/checkPages';
+import { userActions } from '../../../support/page_objects/userActions';
+import { faker } from '@faker-js/faker';
 
 
 beforeEach(() => {
@@ -10,9 +13,7 @@ beforeEach(() => {
 });
 
 Given("the user is not logged in", () => {
-	cy.contains('.nav-link', 'Sign in').should('be.visible');
-    cy.contains('.nav-link', 'Sign up').should('be.visible');
-    
+    checkPages.loginPage();
 });
 
 When("the user accesses the sign up page", () => {
@@ -20,28 +21,22 @@ When("the user accesses the sign up page", () => {
 });
 
 Then("the user needs to create an account", () => {
-    cy.get('h1.text-xs-center').should('contain.text', 'Sign up');
-    cy.get('input[placeholder="Username"]').should('be.visible');
-    cy.get('input[placeholder="Email"]').should('be.visible');
-    cy.get('input[placeholder="Password"]').should('be.visible');
+    checkPages.signUpPage();
 });
 
+let fullName = faker.person.fullName();
+let email = faker.internet.email();
+
 When("the user creates an account", () => {
-	cy.get('input[placeholder="Username"]').type('testerUser');
-    cy.get('input[placeholder="Email"]').type('test_user@test.com');
-    cy.get('input[placeholder="Password"]').type('testerUser@123');
-    cy.get('button').click();
+    userActions.toSignUp(fullName, email, Cypress.env('password'));
 });
 
 Then("the user is redirected to the home page logged in", () => {
-	return true;
+	checkPages.homePage(fullName);
 });
 
 When('the user tries to create an account with an existing email', () => {
-    cy.get('input[placeholder="Username"]').type('testerUser');
-    cy.get('input[placeholder="Email"]').type('test_user@test.com'); 
-    cy.get('input[placeholder="Password"]').type('testerUser@123');
-    cy.get('button').click();
+    userActions.toSignUp(fullName, email, Cypress.env('password'));
   });
   
   Then('the user is shown an error message', () => {
