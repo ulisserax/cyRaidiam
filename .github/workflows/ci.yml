@@ -21,7 +21,7 @@ jobs:
       - name: Install Python3
         run: sudo apt update
              sudo apt install -y python3
-             echo "export PYTHON=$(which python3)" >> $GITHUB_ENV
+             echo "export PYTHON=$(which python3)"
 
       - name: Install another dependencies
         run: yarn install
