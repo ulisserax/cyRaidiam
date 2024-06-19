@@ -15,8 +15,19 @@ jobs:
           node-version: '16'
 
       - name: Install npm dependencies
-        run: npm install && npm install -g editorconfig && yarn install && yarn serve
-      
+        run: npm install && npm install -g editorconfig && npm install -g node-gyp
+        
+
+      - name: Install Python3
+        run: sudo apt update
+             sudo apt install python3
+             nano ~/.bashrc
+             export PYTHON=$(which python3)
+             source ~/.bashrc
+
+      - name: Install another dependencies
+        run: yarn install
+             yarn serve
         
       - name: Cypress run
         uses: cypress-io/github-action@v6
